@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class BasicExercises {
     public static void main(String[] args) throws Exception {
-        exercise17();
+        System.out.println(decimalToOct());
     }
 
     // Print the sum of two numbers
@@ -179,61 +179,96 @@ J  J  aaaaa   V V  aaaaa
     }
 
     // Q17 add two binary numbers
-    private static void exercise17(){
-        // Declare variables to store two binary numbers and the product
-        long binary1, binary2, multiply = 0;
-
-        // Initialize digit and factor variables for processing binary2
-        int digit, factor = 1;
-
+    private static String exercise17(){
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter binary1: ");
-        binary1 = in.nextLong();
+        System.out.println("Enter 1st binary no: ");
+        String b1 = in.next();
+        System.out.println("Enter 2nd binary no. : ");
+        String b2 = in.next();
 
-        System.out.println("Enter binary2: ");
-        binary2 = in.nextLong();
+        StringBuilder sb = new StringBuilder();
+        int i = b1.length()-1;
+        int j = b2.length()-1;
+        int carry = 0;
 
-        // process binary2 to calculate product
-        while (binary2 != 0) {
-            digit = (int)(binary2 % 10);
-            if(digit == 1) {
-                binary1 = binary1 * factor;
-                multiply = binaryproduct((int) binary1, (int) multiply);
-            }else {
-                binary1 = binary1 * factor;
-            }
-            binary2 = binary2 / 10;
-            factor = 10;
+        while(i >= 0 || j >= 0){
+            int sum = carry;
+            if(i >= 0) sum += b1.charAt(i) - '0';
+            if(j >= 0) sum += b2.charAt(j) - '0';
+            sb.append(sum % 2);
+            carry = sum / 2;
+
+            i--;
+            j--;
         }
 
-        // Display the product of the two binary numbers
-        System.out.println("Product of two binary numbers " + multiply + "\n");
-
+        if(carry != 0) sb.append(carry);
+        return sb.reverse().toString();
         
     }
-    // Method to calculate the product of two binary numbers
-    static int binaryproduct(int binary1, int binary2) {
-    int i = 0, remainder = 0;
-    int[] sum = new int[20];
-    int binary_prod_result = 0;
 
-    while(binary1 != 0 || binary2 != 0){
-        sum[i++] = (binary1 % 10 + binary2 % 10 + remainder) % 2;
-        remainder = (binary1 % 10 + binary2 % 10 + remainder) / 2;
-        binary1 = binary1 / 10;
-        binary2 = binary2 / 10;
+    // Q18 product of two binary numbers
+    private static void exercise18(){
+        String b1,b2;
+
+        Scanner sc= new Scanner(System.in);
+        System.out.println("Enter 1st binary no. : ") ;
+        b1=sc.next();
+        System.out.println("Enter 2nd binary no. : ") ;
+        b2=sc.next();
+        int num1=Integer.parseInt(b1,2);
+        int num2=Integer.parseInt(b2,2);
+        int mul=num1*num2;
+        System.out.println("M359ultiplication is : "+Integer.toBinaryString(mul));
     }
 
-    if(remainder != 0){
-        sum[i++] = remainder;
+    // Q19 Convert an integer number to a binary number5
+    private static String exercise19(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter integer number: ");
+        String num1 = in.next();
+        int result = Integer.parseInt(num1,10);
+        return "Result = " + Integer.toBinaryString(result);
     }
 
-    --i;
+    // Q20 Convert a decimal number to hexadecimal number
+    private static String decimalToHex(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter Decimal value: ");
+        int decimal = in.nextInt();
 
-    while (i >= 0){
-        binary_prod_result = binary_prod_result * 10 + sum[i--];
+        if(decimal == 0){
+            return "Enter a valid decimal";
+        }
+
+        StringBuilder hex = new StringBuilder();
+        while(decimal != 0){
+            int remainder = decimal % 16;
+            char hexChar = (char)((remainder < 10) ? remainder + '0' : remainder - 10 + 'A');
+            hex.insert(0, hexChar);
+            decimal /= 16;
+        }
+        return "result = " + hex.toString();
     }
 
-    return binary_prod_result;
- }
+    // Q21 convert decimal number to an octal number
+    private static String decimalToOct(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter a decimal value: ");
+        int decimal = in.nextInt();
+
+        if(decimal == 0){
+            return "Enter a valid decimal";
+        }
+
+        StringBuilder oct = new StringBuilder();
+        while(decimal != 0){
+            int remainder = decimal % 8;
+            oct.insert(0, remainder);
+            decimal /= 8;
+        }
+
+        return "result = " + oct;
+    }
+
 }
